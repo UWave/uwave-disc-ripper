@@ -59,6 +59,7 @@ target/
 
 # Config
 *.conf
+settings.py
 
 # javascript
 static/vendor

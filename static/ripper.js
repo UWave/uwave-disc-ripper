@@ -1,5 +1,6 @@
 function ejectOrLoad(e) {
-  console.log(e);
+  var slot = $(e.target).data('slot');
+  console.log("Ejecting", slot);
 }
 
 function makeButtons(i) {
