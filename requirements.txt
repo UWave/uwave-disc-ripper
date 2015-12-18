@@ -1,0 +1,6 @@
+Flask==0.10.1
+amqp==1.4.8
+-e git://github.com/tuffy/python-audio-tools.git
+celery==3.1.19
+redis==2.10.5
+sh==1.11
