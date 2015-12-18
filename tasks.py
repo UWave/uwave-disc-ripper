@@ -1,5 +1,5 @@
 """Various celery tasks"""
-# import fakemtx as mtx
+import fakemtx as mtx
 import audiotools
 from audiotools.ui import process_output_options
 from audiotools import accuraterip
@@ -17,7 +17,13 @@ app = Flask(__name__)
 config.configure(app)
 msg = audiotools.SilentMessenger()
 
+CELERY_ROUTES = {
+    "tasks.ripdisk": "cdrom",
+    "tasks.mtx": "changer"
+}
+
 celery = make_celery(app)
+changer = mtx.Changer(app.config['ripper']['changer'])
 
 
 class AccurateRipReader(object):
@@ -266,3 +272,22 @@ def rip_disk(self):
                                              'status': 'Fully ripped'})
 
     return {'status': 'done', 'tracks': len(tracks_to_rip)}
+
+
+@celery.task
+def mtx_command(command, **kwargs):
+    if command == "update_status":
+        changer.update_status()
+    if command == "load":
+        slot = None
+        if "slot" in kwargs:
+            slot = kwargs['slot']
+        changer.load(slot)
+    if command == "unload":
+        changer.unload(kwargs['slot'])
+    if command == "load_drive":
+        drive = 0
+        if "drive" in kwargs:
+            drive = kwargs["drive"]
+        changer.load_drive(kwargs['slot'], drive)
+    return changer.get_status()

@@ -2,7 +2,7 @@
 """Pretends to be mtx.py, but just executes shell commands and parses the output"""
 import sh
 import re
-import json
+# import json
 import logging
 
 logger = logging.getLogger(__name__)
@@ -89,14 +89,17 @@ class IncorrectDeviceTypeError(Exception):
     def __str__(self):
         return "The device you selected is not a media changer"
 
+
 class NeverScannedError(Exception):
     def __str__(self):
         err = "That operation can't be completed until you've run updateStatus() at least once"
         return err
 
+
 class NoSlotsAvailableError(Exception):
     def __str__(self):
         return "No slots are available to load the disk into!"
+
 
 class DriveAlreadyLoaded(Exception):
     def __str__(self):
