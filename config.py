@@ -2,7 +2,7 @@ from configparser import SafeConfigParser
 import os
 
 config = SafeConfigParser()
-config.read(['diskripper.conf', os.path.expanduser('~/.config/diskripper.conf')])
+config.read(['discripper.conf', os.path.expanduser('~/.config/discripper.conf')])
 
 
 def configure(app):
