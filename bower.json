@@ -1,0 +1,23 @@
+{
+  "name": "UWave-Ripper",
+  "homepage": "https://github.com/UWave/uwave-disc-ripper",
+  "authors": [
+    "Finn Herzfeld <finn@uwave.fm>"
+  ],
+  "description": "A webapp to rip CDs",
+  "main": "",
+  "moduleType": [],
+  "license": "GPLv3",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "static/vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.5",
+    "font-awesome": "fontawesome#~4.5.0"
+  }
+}
