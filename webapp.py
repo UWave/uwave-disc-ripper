@@ -53,7 +53,7 @@ def hello():
 
 @app.route("/changer/status")
 def init_changer_status():
-    """Checks the status of the changer, sends the results back"""
+    """Checks the status of the changer"""
     task = tasks.mtx_command.apply_async(["update_status"])
     return jsonify({'updates': url_for('changer_status', task_id=task.id)})
 
@@ -64,6 +64,24 @@ def changer_status(task_id):
     task = tasks.mtx_command.AsyncResult(task_id)
     response = {'state': task.state, 'info': task.info}
     return jsonify(response)
+
+
+@app.route("/changer/updates/<task_id>")
+def changer_updates(task_id):
+    """Displays information about the state of a changer task"""
+    task = tasks.mtx_command.AsyncResult(task_id)
+    response = {'task_id': task_id}
+    if task.state in ["PENDING", "SUCCESS"]:
+        response['state'] = task.state
+        response['info'] = task.info
+    return jsonify(response)
+
+
+@app.route("/changer/eject/<slot>")
+def init_changer_eject(slot):
+    """Ejects a disc from the changer"""
+    task = tasks.mtx_command.apply_async(["eject"], {"slot": slot})
+    return jsonify({'updates': url_for('changer_updates', task_id=task.id)})
 
 
 @app.route('/githook', methods=["POST"])

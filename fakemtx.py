@@ -66,7 +66,7 @@ class Changer(object):
         self.status[slot]['full'] = True
         return slot
 
-    def unload(self, slot):
+    def eject(self, slot):
         """
         Causes the changer to unload the disk from the specified slot and eject it from the changer
         """

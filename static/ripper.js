@@ -3,9 +3,15 @@ function ejectOrLoad(e) {
   var full = $(e.target).data('full');
   if(full) {
     console.log("Ejecting", slot);
+    waitFor('/changer/eject/' + encodeURIComponent(slot), ejectOrLoadCallback);
   } else {
     console.log("Loading", slot);
+    waitFor('/changer/load/' + encodeURIComponent(slot), ejectOrLoadCallback);
   }
+}
+
+function ejectOrLoadCallback(result) {
+
 }
 
 function makeButtons(i) {

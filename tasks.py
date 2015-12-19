@@ -97,7 +97,7 @@ def merge_metadatas(metadatas):
         return merged
 
 
-@celery.task(bind=True, queue='cdrom')
+@celery.task(bind=True)
 def rip_disk(self):
     """Most of this is just copied from cdda2track, a part of python-audio-tools"""
     try:
@@ -275,8 +275,13 @@ def rip_disk(self):
     return {'status': 'done', 'tracks': len(tracks_to_rip)}
 
 
-@celery.task
-def mtx_command(command, **kwargs):
+@celery.task(bind=True)
+def mtx_command(self, command, **kwargs):
+    metadata = {
+        "command": command,
+        "kwargs": kwargs
+    }
+    self.update_state(state='PROGRESS', meta=metadata)
     changer = mtx.Changer(app.config['ripper']['changer'])
     if command == "update_status":
         changer.update_status()
@@ -284,12 +289,19 @@ def mtx_command(command, **kwargs):
         slot = None
         if "slot" in kwargs:
             slot = kwargs['slot']
+        metadata["slot"] = slot
+        self.update_state(state='PROGRESS', meta=metadata)
         changer.load(slot)
-    if command == "unload":
-        changer.unload(kwargs['slot'])
+    if command == "eject":
+        metadata["slot"] = kwargs['slot']
+        self.update_state(state='PROGRESS', meta=metadata)
+        changer.eject(kwargs['slot'])
     if command == "load_drive":
         drive = 0
         if "drive" in kwargs:
             drive = kwargs["drive"]
+        metadata['slot'] = kwargs['slot']
+        metadata['drive'] = drive
+        self.update_state(state='PROGRESS', meta=metadata)
         changer.load_drive(kwargs['slot'], drive)
     return changer.get_status()
