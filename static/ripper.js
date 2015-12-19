@@ -13,12 +13,12 @@ function ejectOrLoad(e) {
 
 function ejectOrLoadCallback(result) {
   console.log(result);
-  $(".slot_" + result.slot + " .ejectOrLoad").removeClass("fa-spin");
+  $(".slot_" + result.info.slot + " .ejectOrLoad").removeClass("fa-spin");
 }
 
 function makeButtons(i) {
   var buttons = $("<td>").addClass("slot_" + i).addClass("buttons");
-  var eject = $("<a>").addClass("ejectOrLoad").addClass("fa").click(ejectOrLoad).data("slot", i).attr("href", "#");
+  var eject = $("<i>").addClass("ejectOrLoad").addClass("fa").click(ejectOrLoad).data("slot", i);
   buttons.append(eject);
   return buttons;
 }
