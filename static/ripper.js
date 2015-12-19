@@ -11,7 +11,7 @@ function makeButtons(i) {
 }
 
 function updateList() {
-  fetch('/changer_status').then(function(response) {
+  fetch('/changer/status').then(function(response) {
     response.json().then(function(slots) {
       for(var i in slots) {
         if(slots.hasOwnProperty(i)) {
