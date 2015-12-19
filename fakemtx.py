@@ -41,10 +41,10 @@ class Changer(object):
 
                 # If we previously believed this to be in a different state than it is, then our
                 # information about what's in there is probably wrong
-            elif 'state' in self.status[status['number']]:
-                if status['state'] != self.status[status['number']]['state']:
-                    self.status[status['number']] = {}
-                    self.status[status['number']]['full'] = status['state'] == "Full"
+                elif 'state' in self.status[status['number']]:
+                    if status['state'] != self.status[status['number']]['state']:
+                        self.status[status['number']] = {}
+                        self.status[status['number']]['full'] = status['state'] == "Full"
         return self.status
 
     def load(self, slot=None):
