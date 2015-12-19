@@ -60,7 +60,7 @@ function waitFor(url, callback) {
     response.json().then(function(result) {
       if(result.hasOwnProperty('updates')) {
         waitFor(result.updates, callback);
-      } else if(result.state == "PENDING") {
+      } else if(result.state == "PENDING" || result.state == "PROGRESS") {
         setTimeout(waitFor, 500, url, callback);
       } else {
         callback(result);
