@@ -22,9 +22,9 @@ function makeButtons(i) {
 }
 
 function showChangerStatus(result) {
-  for(var i in result.info) {
-    if(result.info.hasOwnProperty(i)) {
-      var slot = result.info[i];
+  for(var i in result.info.status) {
+    if(result.info.status.hasOwnProperty(i)) {
+      var slot = result.info.status[i];
       var row = $("tr.slot_" + i);
       if(row.length === 0) {
         row = $("<tr>").addClass("slot_" + i)
