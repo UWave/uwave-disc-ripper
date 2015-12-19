@@ -19,7 +19,7 @@ msg = audiotools.SilentMessenger()
 
 CELERY_ROUTES = {
     "tasks.ripdisk": "cdrom",
-    "tasks.mtx": "changer"
+    "tasks.mtx_command": "changer"
 }
 
 celery = make_celery(app)
