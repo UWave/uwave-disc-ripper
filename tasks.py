@@ -311,5 +311,16 @@ def mtx_command(self, command, **kwargs):
         metadata['drive'] = drive
         self.update_state(state='PROGRESS', meta=metadata)
         changer.load_drive(kwargs['slot'], drive)
+    if command == "unload_drive":
+        # drive = 0
+        # if "drive" in kwargs:
+        #     drive = kwargs["drive"]
+        # metadata['drive'] = drive
+        slot = None
+        if "slot" in kwargs:
+            slot = kwargs["slot"]
+        metadata['slot'] = slot
+        self.update_state(state='PROGRESS', meta=metadata)
+        changer.unload_drive(slot)
     metadata['status'] = changer.get_status()
     return metadata

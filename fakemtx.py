@@ -91,6 +91,19 @@ class Changer(object):
         except sh.ErrorReturnCode_1:
             raise DriveAlreadyLoaded()
 
+    def unload_drive(self, slot=None, drive=0):
+        """
+        Unloads the disc from the specified drive (default 0) into the specified slot, or the slot
+        slot that the disc originally came from if unspecified
+        """
+        try:
+            if slot is None:
+                sh.mtx('-f', self.changer, 'altres', 'unload')
+            else:
+                sh.mtx('-f', self.changer, 'altres', 'unload', slot)
+        except sh.ErrorReturnCode_1:
+            raise FailedToUnloadDrive()
+
     def get_status(self):
         return self.status
 
@@ -114,3 +127,8 @@ class NoSlotsAvailableError(Exception):
 class DriveAlreadyLoaded(Exception):
     def __str__(self):
         return "There is already a disk in the drive!"
+
+
+class FailedToUnloadDrive(Exception):
+    def __str__(self):
+        return "Failed to unload the drive"
