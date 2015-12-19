@@ -41,7 +41,8 @@ class Changer(object):
 
                 # If we previously believed this to be in a different state than it is, then our
                 # information about what's in there is probably wrong
-                elif status['state'] != self.status[status['number']]['state']:
+            elif 'state' in self.status[status['number']]:
+                if status['state'] != self.status[status['number']]['state']:
                     self.status[status['number']] = {}
                     self.status[status['number']]['full'] = status['state'] == "Full"
         return self.status
@@ -56,7 +57,7 @@ class Changer(object):
             raise NeverScannedError()
         if slot is None:
             for possible in self.status:
-                if self.status['possible']['full'] is False:
+                if self.status[possible]['full'] is False:
                     slot = possible
             if slot is None:
                 # No slots available to load stuff into

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from flask import Flask, render_template, jsonify, url_for, redirect
+from flask import Flask, render_template, jsonify, url_for
 import tasks
 import config
 from sh import git
