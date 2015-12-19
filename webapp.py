@@ -70,7 +70,9 @@ def changer_status(task_id):
 def changer_updates(task_id):
     """Displays information about the state of a changer task"""
     task = tasks.mtx_command.AsyncResult(task_id)
-    response = {'task_id': task_id, "state": task.state, "info": task.info}
+    response = {'task_id': task_id, "state": task.state}
+    if task.state != "FAILURE":
+        response['info'] = task.info
     return jsonify(response)
 
 
