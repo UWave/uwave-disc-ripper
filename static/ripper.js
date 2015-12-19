@@ -1,6 +1,7 @@
 function ejectOrLoad(e) {
   var slot = $(e.target).data('slot');
   var full = $(e.target).data('full');
+  $(e.target).removeClass("fa-eject").removeClass("fa-arrow-circle-down").addClass("fa-spin").addClass("fa-refresh");
   if(full) {
     console.log("Ejecting", slot);
     waitFor('/changer/eject/' + encodeURIComponent(slot), ejectOrLoadCallback);
@@ -11,7 +12,8 @@ function ejectOrLoad(e) {
 }
 
 function ejectOrLoadCallback(result) {
-
+  console.log(result);
+  $(".slot_" + result.slot + " .ejectOrLoad").removeClass("fa-spin");
 }
 
 function makeButtons(i) {
