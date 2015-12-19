@@ -62,7 +62,7 @@ class Changer(object):
             if slot is None:
                 # No slots available to load stuff into
                 raise NoSlotsAvailableError()
-        sh.mtx('-f', self.changer, 'altres', 'eepos', 'transfer', self.ioslot, slot)
+        sh.mtx('-f', self.changer, 'altres', 'eepos', '0', 'transfer', self.ioslot, slot)
         self.status[slot]['full'] = True
         return slot
 
@@ -70,7 +70,7 @@ class Changer(object):
         """
         Causes the changer to unload the disk from the specified slot and eject it from the changer
         """
-        sh.mtx('-f', self.changer, 'altres', 'eepos', 'transfer', slot, self.ioslot)
+        sh.mtx('-f', self.changer, 'altres', 'eepos', '0', 'transfer', slot, self.ioslot)
         self.status[slot]['full'] = False
 
     def load_drive(self, slot, drive=0):
