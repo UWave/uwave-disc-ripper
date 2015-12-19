@@ -17,6 +17,10 @@ app = Flask(__name__)
 config.configure(app)
 msg = audiotools.SilentMessenger()
 
+CELERY_ROUTES = {
+    'tasks.rip_disk': 'cdrom',
+    'tasks.mtx_command': 'changer'
+}
 
 celery = make_celery(app)
 changer = mtx.Changer(app.config['ripper']['changer'])
@@ -270,7 +274,7 @@ def rip_disk(self):
     return {'status': 'done', 'tracks': len(tracks_to_rip)}
 
 
-@celery.task(queue='changer')
+@celery.task
 def mtx_command(command, **kwargs):
     if command == "update_status":
         changer.update_status()
