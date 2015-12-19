@@ -18,8 +18,8 @@ config.configure(app)
 msg = audiotools.SilentMessenger()
 
 CELERY_ROUTES = {
-    'tasks.rip_disk': 'cdrom',
-    'tasks.mtx_command': 'changer'
+    'tasks.rip_disk': {'queue': 'cdrom'},
+    'tasks.mtx_command': {'queue': 'changer'}
 }
 
 celery = make_celery(app)
