@@ -52,7 +52,9 @@ function showChangerStatus(result) {
 function waitFor(url, callback) {
   fetch(url).then(function(response) {
     response.json().then(function(result) {
-      if(result.state == "PENDING") {
+      if(result.hasOwnProperty('updates')) {
+        waitFor(result.updates, callback);
+      } else if(result.state == "PENDING") {
         setTimeout(waitFor, 500, url, callback);
       } else {
         callback(result);
@@ -61,13 +63,7 @@ function waitFor(url, callback) {
   });
 }
 
-function checkChangerStatus() {
-  fetch('/changer/status').then(function(response) {
-    response.json().then(function(info){
-      var url = info.updates;
-      waitFor(url, showChangerStatus);
-    });
-  });
-}
 
-$(document).ready(checkChangerStatus);
+$(document).ready(function() {
+  waitFor('/changer/status', showChangerStatus);
+});
