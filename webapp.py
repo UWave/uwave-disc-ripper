@@ -68,7 +68,7 @@ def changer_status(task_id):
 
 @app.route('/githook', methods=["POST"])
 def githook():
-    git('pull')
+    return jsonify(git('pull'))
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0')
