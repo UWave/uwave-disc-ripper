@@ -60,7 +60,9 @@ def init_changer_status():
 @app.route('/changer/status/<task_id>')
 def changer_status(task_id):
     """Displays the results (or status) of a check_status changer command"""
-    return jsonify(tasks.mtx_command.AsyncResult(task_id))
+    task = tasks.mtx_command.AsyncResult(task_id)
+    response = {'state': task.state, 'info': task.info}
+    return jsonify(response)
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0')
