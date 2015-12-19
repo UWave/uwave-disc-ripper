@@ -5,14 +5,15 @@ function ejectOrLoad(e) {
 
 function makeButtons(i) {
   var buttons = $("<td>").addClass("slot_" + i).addClass("buttons");
-  var eject = $("<a>").addClass("ejectOrLoad").addClass("fa").click(ejectOrLoad).data("slot", i).attr("href", "javascript: void(0);");
+  var eject = $("<a>").addClass("ejectOrLoad").addClass("fa").click(ejectOrLoad).data("slot", i).attr("href", "#");
   buttons.append(eject);
   return buttons;
 }
 
-function showChangerStatus(slots) {
-  for(var i in slots) {
-    if(slots.hasOwnProperty(i)) {
+function showChangerStatus(result) {
+  for(var i in result.info) {
+    if(results.info.hasOwnProperty(i)) {
+      var slot = results.info[i];
       var row = $("tr.slot_" + i);
       if(row.length === 0) {
         row = $("<tr>").addClass("slot_" + i)
