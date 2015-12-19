@@ -19,6 +19,7 @@ msg = audiotools.SilentMessenger()
 
 
 celery = make_celery(app)
+changer = mtx.Changer(app.config['ripper']['changer'])
 
 
 celery.conf.update(CELERY_ROUTES={
@@ -282,7 +283,6 @@ def mtx_command(self, command, **kwargs):
         "kwargs": kwargs
     }
     self.update_state(state='PROGRESS', meta=metadata)
-    changer = mtx.Changer(app.config['ripper']['changer'])
     if command == "update_status":
         changer.update_status()
     if command == "load":
