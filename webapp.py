@@ -2,6 +2,7 @@
 from flask import Flask, render_template, jsonify, url_for, redirect
 import tasks
 import config
+from sh import git
 
 app = Flask(__name__)
 config.configure(app)
@@ -63,6 +64,11 @@ def changer_status(task_id):
     task = tasks.mtx_command.AsyncResult(task_id)
     response = {'state': task.state, 'info': task.info}
     return jsonify(response)
+
+
+@app.route('/githook', methods=["POST"])
+def githook():
+    git('pull')
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0')
