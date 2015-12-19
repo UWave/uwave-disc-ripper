@@ -25,8 +25,8 @@ function showChangerStatus(result) {
         $(".slots").append(row);
       }
       $(".slot.slot_" + i).text(i);
-      if(slots[i].hasOwnProperty("full")) {
-        if(slots[i].full) {
+      if(slot.hasOwnProperty("full")) {
+        if(slot.full) {
           $(".state.slot_" + i).text("Full");
           $(".buttons.slot_" + i + " .ejectOrLoad").removeClass("fa-arrow-circle-down").addClass("fa-eject");
         } else {
@@ -34,11 +34,11 @@ function showChangerStatus(result) {
           $(".buttons.slot_" + i + " .ejectOrLoad").removeClass("fa-eject").addClass("fa-arrow-circle-down");
         }
       }
-      if(slots[i].hasOwnProperty("album")) {
-        $(".album.slot_" + i).text(slots[i].album);
+      if(slot.hasOwnProperty("album")) {
+        $(".album.slot_" + i).text(slot.album);
       }
-      if(slots[i].hasOwnProperty("artist")) {
-        $(".artist.slot_" + i).text(slots[i].artist);
+      if(slot.hasOwnProperty("artist")) {
+        $(".artist.slot_" + i).text(slot.artist);
       }
     }
   }
