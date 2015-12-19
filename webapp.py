@@ -55,7 +55,7 @@ def hello():
 def init_changer_status():
     """Checks the status of the changer, sends the results back"""
     task = tasks.mtx_command.apply_async(["update_status"])
-    return redirect(url_for('changer_status', task_id=task.id), code=302)
+    return jsonify({'updates': url_for('changer_status', task_id=task.id)})
 
 
 @app.route('/changer/status/<task_id>')
