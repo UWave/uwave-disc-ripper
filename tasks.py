@@ -22,10 +22,10 @@ celery = make_celery(app)
 changer = mtx.Changer(app.config['ripper']['changer'])
 
 
-celery.config['CELERY_ROUTES'] = {
+celery.conf.update(CELERY_ROUTES={
     'tasks.rip_disk': {'queue': 'cdrom'},
     'tasks.mtx_command': {'queue': 'changer'}
-}
+    })
 
 
 class AccurateRipReader(object):
