@@ -19,7 +19,6 @@ msg = audiotools.SilentMessenger()
 
 
 celery = make_celery(app)
-changer = mtx.Changer(app.config['ripper']['changer'])
 
 
 celery.conf.update(CELERY_ROUTES={
@@ -278,6 +277,7 @@ def rip_disk(self):
 
 @celery.task
 def mtx_command(command, **kwargs):
+    changer = mtx.Changer(app.config['ripper']['changer'])
     if command == "update_status":
         changer.update_status()
     if command == "load":
