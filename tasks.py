@@ -17,10 +17,6 @@ app = Flask(__name__)
 config.configure(app)
 msg = audiotools.SilentMessenger()
 
-CELERY_ROUTES = {
-    "tasks.ripdisk": "cdrom",
-    "tasks.mtx_command": "changer"
-}
 
 celery = make_celery(app)
 changer = mtx.Changer(app.config['ripper']['changer'])
@@ -96,7 +92,7 @@ def merge_metadatas(metadatas):
         return merged
 
 
-@celery.task(bind=True)
+@celery.task(bind=True, queue='cdrom')
 def rip_disk(self):
     """Most of this is just copied from cdda2track, a part of python-audio-tools"""
     try:
@@ -274,7 +270,7 @@ def rip_disk(self):
     return {'status': 'done', 'tracks': len(tracks_to_rip)}
 
 
-@celery.task
+@celery.task(queue='changer')
 def mtx_command(command, **kwargs):
     if command == "update_status":
         changer.update_status()
