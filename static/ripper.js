@@ -13,7 +13,16 @@ function ejectOrLoad(e) {
 
 function ejectOrLoadCallback(result) {
   console.log(result);
-  $(".slot_" + result.info.slot + " .ejectOrLoad").removeClass("fa-spin");
+  var full = true;
+  if((result.info.command == "eject" && result.info.ejected) || (result.info.command == "load" && !result.info.loaded)) {
+    full = false;
+  }
+  var button = $(".slot_" + result.info.slot + " .ejectOrLoad").removeClass("fa-spin").removeClass("fa-refresh");
+  if(full) {
+    button.addClass("fa-eject");
+  } else {
+    button.addClass("fa-arrow-circle-down");
+  }
 }
 
 function makeButtons(i) {
