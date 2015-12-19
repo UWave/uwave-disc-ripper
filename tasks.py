@@ -280,11 +280,13 @@ def rip_disk(self):
 def mtx_command(self, command, **kwargs):
     metadata = {
         "command": command,
-        "kwargs": kwargs
+        "kwargs": kwargs,
+        "status": changer.get_status()
     }
     self.update_state(state='PROGRESS', meta=metadata)
-    if command == "update_status":
-        changer.update_status()
+    if command == "update_status" or metadata['status'] == {}:
+        metadata['status'] = changer.update_status()
+        self.update_state(state='PROGRESS', meta=metadata)
     if command == "load":
         slot = None
         if "slot" in kwargs:
@@ -295,7 +297,7 @@ def mtx_command(self, command, **kwargs):
     if command == "eject":
         metadata["slot"] = kwargs['slot']
         self.update_state(state='PROGRESS', meta=metadata)
-        changer.eject(kwargs['slot'])
+        metadata['ejected'] = changer.eject(kwargs['slot'])
     if command == "load_drive":
         drive = 0
         if "drive" in kwargs:
@@ -304,4 +306,5 @@ def mtx_command(self, command, **kwargs):
         metadata['drive'] = drive
         self.update_state(state='PROGRESS', meta=metadata)
         changer.load_drive(kwargs['slot'], drive)
-    return changer.get_status()
+    metadata['status'] = changer.get_status()
+    return metadata
