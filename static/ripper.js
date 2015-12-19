@@ -1,6 +1,11 @@
 function ejectOrLoad(e) {
   var slot = $(e.target).data('slot');
-  console.log("Ejecting", slot);
+  var full = $(e.target).data('full');
+  if(full) {
+    console.log("Ejecting", slot);
+  } else {
+    console.log("Loading", slot);
+  }
 }
 
 function makeButtons(i) {
@@ -28,10 +33,10 @@ function showChangerStatus(result) {
       if(slot.hasOwnProperty("full")) {
         if(slot.full) {
           $(".state.slot_" + i).text("Full");
-          $(".buttons.slot_" + i + " .ejectOrLoad").removeClass("fa-arrow-circle-down").addClass("fa-eject");
+          $(".buttons.slot_" + i + " .ejectOrLoad").removeClass("fa-arrow-circle-down").addClass("fa-eject").data('full', true);
         } else {
           $(".state.slot_" + i).text("Empty");
-          $(".buttons.slot_" + i + " .ejectOrLoad").removeClass("fa-eject").addClass("fa-arrow-circle-down");
+          $(".buttons.slot_" + i + " .ejectOrLoad").removeClass("fa-eject").addClass("fa-arrow-circle-down").data('full', false);
         }
       }
       if(slot.hasOwnProperty("album")) {
