@@ -75,6 +75,12 @@ def init_changer_eject(slot):
     return jsonify({'updates': url_for('changer_updates', task_id=task.id)})
 
 
+@app.route("/changer/load/<slot>",  defaults={'slot': None})
+def init_changer_load(slot):
+    task = tasks.mtx_command.apply_async(["load"], {"slot": slot})
+    return jsonify({'updates': url_for('changer_updates', task_id=task.id)})
+
+
 @app.route('/githook', methods=["POST"])
 def githook():
     git('pull')

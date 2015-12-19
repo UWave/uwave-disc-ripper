@@ -293,7 +293,12 @@ def mtx_command(self, command, **kwargs):
             slot = kwargs['slot']
         metadata["slot"] = slot
         self.update_state(state='PROGRESS', meta=metadata)
-        changer.load(slot)
+        result = changer.load(slot)
+        if result:
+            metadata['loaded'] = True
+            metadata['slot'] = result
+        else:
+            metadata['loaded'] = False
     if command == "eject":
         metadata["slot"] = kwargs['slot']
         self.update_state(state='PROGRESS', meta=metadata)

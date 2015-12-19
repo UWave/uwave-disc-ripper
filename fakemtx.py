@@ -62,9 +62,12 @@ class Changer(object):
             if slot is None:
                 # No slots available to load stuff into
                 raise NoSlotsAvailableError()
-        sh.mtx('-f', self.changer, 'altres', 'eepos', '0', 'transfer', self.ioslot, slot)
-        self.status[slot]['full'] = True
-        return slot
+        try:
+            sh.mtx('-f', self.changer, 'altres', 'eepos', '0', 'transfer', self.ioslot, slot)
+            self.status[slot]['full'] = True
+            return slot
+        except sh.ErrorReturnCode_1:
+            return False
 
     def eject(self, slot):
         """
